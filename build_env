@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+version='0.0.1'
+
+# make sure login docker registry
+#docker login docker.clounix.com
+
+# check docker image for building
+if [ "$(docker images -q onie-build-env:$version 2> /dev/null)" == "" ]; then
+  echo "Build Docker image as onie-build-env:$version"
+  docker image build --compress -t onie-build-env:$version -f ./contrib/build-env/Dockerfile .
+fi
+
+if [ "$(docker images -q onie-build-env-$USER:$version 2> /dev/null)" == "" ]; then
+  echo "Build Docker image as onie-build-env-$USER:$version"
+  docker image build \
+               --build-arg version=$version \
+               --build-arg user=$USER \
+               --build-arg uid=$(id -u) \
+               --build-arg guid=$(id -g) \
+               --build-arg homedir=/home/$USER \
+               --build-arg hostname=$HOSTNAME \
+               -t onie-build-env-$USER:$version \
+               -f ./contrib/build-env/Dockerfile.user \
+               .
+fi
+
+# work-around for Jenckins pipeline
+test -t 1 && USE_TTY="-t"
+
+# execute commands 
+if [ $# -ne 0 ]; then
+  echo "$@ ..."
+  docker run \
+	  -v /home/$USER:/home/$USER \
+	  -v `pwd`:`pwd` \
+	  -w `pwd`/build-config \
+	  --cap-add=NET_ADMIN \
+	  --cap-add=MKNOD \
+	  -i $USE_TTY --rm --network host onie-build-env-$USER:$version $@
+else
+  echo "Start bash ..."
+  docker run \
+	  -v /home/$USER:/home/$USER \
+	  -v `pwd`:`pwd` \
+	  -w `pwd`/build-config \
+	  --cap-add=NET_ADMIN \
+	  --cap-add=MKNOD \
+	  -i $USE_TTY --rm --network host onie-build-env-$USER:$version bash
+fi

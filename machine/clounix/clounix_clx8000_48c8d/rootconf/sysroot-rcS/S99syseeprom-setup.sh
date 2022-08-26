@@ -1,0 +1,1 @@
+../init.d/syseeprom-setup.sh

@@ -1,0 +1,34 @@
+ARG version
+
+FROM onie-build-env:$version
+
+## Make apt-get non-interactive
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Add user
+ARG user
+ARG uid
+ARG guid
+ARG hostname
+ARG homedir
+
+ENV BUILD_HOSTNAME $hostname
+ENV USER $user
+
+RUN groupadd -f -r -g $guid $user
+
+RUN useradd $user -l -u $uid -g $guid -d $homedir -m -s /bin/bash
+RUN usermod -aG root $user
+
+#Setup dotfiles
+
+# Add user to sudoers
+RUN echo "$user ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
+USER $user
+
+# set environment variables.
+ENV HOME $homedir
+ENV PATH $PATH:/var/$user/.local/bin
+
+# Define default command.
+CMD ["bash"]

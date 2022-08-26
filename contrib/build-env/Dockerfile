@@ -6,6 +6,11 @@
 
 FROM debian:9
 
+RUN echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main contrib non-free" > /etc/apt/sources.list && \
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main contrib non-free" >> /etc/apt/sources.list && \
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-backports main contrib non-free" >> /etc/apt/sources.list && \
+        echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list
+
 # Add initial development packages
 RUN apt-get update && apt-get install -y \
     build-essential stgit u-boot-tools util-linux \
@@ -16,28 +21,6 @@ RUN apt-get update && apt-get install -y \
     libexpat1-dev fakeroot python-sphinx rst2pdf \
     libefivar-dev libnss3-tools libnss3-dev libpopt-dev \
     libssl-dev sbsigntool uuid-runtime uuid-dev cpio \
-    bsdmainutils curl sudo
+    bsdmainutils curl sudo autopoint unzip
 
-# Create build user
-RUN useradd -m -s /bin/bash build && \
-        adduser build sudo && \
-        echo "build:build" | chpasswd
-
-WORKDIR /home/build
-
-# Add /sbin and /usr/sbin to build user's path
-RUN echo export PATH="/sbin:/usr/sbin:\$PATH" >> .bashrc
-
-# Add common files, like .gitconfig
-COPY home .
-
-# Create /home/build/src as a mount point for sharing files with the
-# host system.
-RUN mkdir src
-
-# Make sure everything in /home/build is owned by the build user
-RUN chown -R build:build .
-
-USER build
-
-CMD ["/bin/bash", "--login"]
+CMD ["/bin/bash"]

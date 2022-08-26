@@ -194,6 +194,7 @@ KNOWN_ASIC_VENDORS = \
   mlnx   \
   mvl    \
   nephos \
+  clounix\
   none   \
   qemu
 
@@ -340,7 +341,7 @@ endif
 #
 
 # Default mirror for packages needed by ONIE
-ONIE_MIRROR	?= http://mirror.opencompute.org/onie
+ONIE_MIRROR    ?= http://mirror.opencompute.org/onie
 
 # By default do not enable secure boot
 SECURE_BOOT_ENABLE ?= no

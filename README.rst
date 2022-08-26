@@ -18,3 +18,10 @@ Subscribe to the list: `https://ocp-all.groups.io/g/OCP-ONIE <https://ocp-all.gr
 
 Browse the archives: `https://ocp-all.groups.io/g/OCP-ONIE/topics <https://ocp-all.groups.io/g/OCP-ONIE/topics>`_.
 
+******************************
+Steps to build ONIE
+******************************
+
+    $ ./build_env
+    
+    $ make -j40 MACHINEROOT=../machine/clounix/ MACHINE=clounix_clx8000_48c8d all
