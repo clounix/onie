@@ -406,7 +406,7 @@ local_fs_run()
                         return 1
                     }
                     f2=$(ls -Art $p | grep $f | tail -n 1)
-                    run_installer "file:/$p/$f2" && return 0
+		    [ -r "/$p/$f2" ] && run_installer "file:/$p/$f2" && return 0
                     rm -f $tmp_copy $onie_installer
                     # re-mount it to look for more files
                     mount $p $mp > /dev/null 2>&1
