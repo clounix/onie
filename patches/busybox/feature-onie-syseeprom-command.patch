@@ -897,7 +897,7 @@ index 4d6425f..cdae45b 100644
 +
 +config SYS_EEPROM_SIZE
 +	int "usable eeprom size in byte"
-+	range 0 2048
++	range 0 32768
 +	default 0
 +	depends on SYS_EEPROM
 +	help

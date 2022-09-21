@@ -36,7 +36,7 @@ index cdae45b750b1..290046a217c2 100644
  config SYS_EEPROM_SIZE
  	int "usable eeprom size in byte"
 +	range 2048 2048 if SYS_EEPROM_DEVICE_DISK
- 	range 0 2048
+	range 0 32768
 +	default 2048 if SYS_EEPROM_DEVICE_DISK
  	default 0
  	depends on SYS_EEPROM
