@@ -26,7 +26,7 @@ onie_get_boot_dev()
 find_sata_rule="ata"
 find_mmc_rule="Multiple Reader\|MMC"
 find_non_usb_rule="${find_sata_rule}\|${find_mmc_rule}"
-onie_sata_device="$(lsblk.sh | grep "${find_sata_rule}" | awk '{print $1}')"
+onie_sata_device="$(lsblk.sh | grep -i "${find_sata_rule}" | awk '{print $1}')"
 onie_mmc_device="$(lsblk.sh | grep "${find_mmc_rule}" | awk '{print $1}')"
 onie_boot_device="$(onie_get_boot_dev)"
 onie_boot_device="${onie_boot_device%%[0-9]}"
