@@ -1164,7 +1164,7 @@ index 0000000..26b6ec5
 +{
 +    int max_size = TLV_TOTAL_LEN_MAX;
 +    return((strcmp(hdr->signature, TLV_INFO_ID_STRING) == 0) &&
-+	   (hdr->version == TLV_INFO_VERSION) &&
++	   //(hdr->version == TLV_INFO_VERSION) &&
 +	   (be16_to_cpu(hdr->totallen) <= max_size) );
 +}
 +
