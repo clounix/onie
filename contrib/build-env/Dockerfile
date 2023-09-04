@@ -6,6 +6,12 @@
 
 FROM debian:9
 
+RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list
+RUN echo "deb-src http://archive.debian.org/debian stretch main" >> /etc/apt/sources.list
+RUN echo "deb http://archive.debian.org/debian stretch-backports main" >> /etc/apt/sources.list
+RUN echo  "deb http://archive.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list
+RUN echo  "deb-src http://archive.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list
+
 # Add initial development packages
 RUN apt-get update && apt-get install -y \
     build-essential stgit u-boot-tools util-linux \
